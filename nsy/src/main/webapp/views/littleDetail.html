@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagecontent</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+    <!-- ICON CSS -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- globalstyle -->
+    <link rel="stylesheet" href="../css/globalstyle.css">
+    <!-- globalattributes -->
+    <link rel="stylesheet" href="../css/globalattributes.css">
+
+    <!-- 複數頁面使用CSS效果 -->
+    <link rel="stylesheet" href="/css/pluralpagestyle.css">
+
+    <style>
+        /* 篩選 --------------------------------------------------------- */
+        .opA {
+            color: var(--color-black);
+            text-decoration: none;
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 24px;
+        }
+
+        .opA:hover {
+            color: var(--color-marigold);
+            cursor: pointer;
+        }
+
+        /* 分隔線 --------------------------------------------------------- */
+        .borderLine {
+            height: 3px;
+            width: 70px;
+            background-color: var(--color-sunorange);
+            transform: translateX(1px);
+        }
+
+        /* 表格 --------------------------------------------------------- */
+        .orderStocktable,
+        .orderStocktable1 {
+            table-layout: fixed;
+            font-size: 14px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 0.3rem;
+            border: 1px solid var(--color-border);
+        }
+
+        .orderStocktable th,
+        .orderStocktable1 th {
+            height: var(--table-thheight);
+            color: var(--color-irongray);
+            font-weight: var(--font-weight-contenttitle);
+            background-color: var(--color-tableth);
+        }
+
+        .orderStocktable td,
+        .orderStocktable1 td {
+            padding-top: 18px;
+            padding-bottom: 18px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        /* 按鈕樣式設定 --------------------------- */
+        .outLinedBtn {
+            /* color: var(--color-sunorange); */
+            color: var(--color-irongray);
+            height: 36px;
+            padding: 0px 16px;
+            border-radius: 0.3rem;
+            border: 1px solid var(--color-border);
+            background-color: transparent;
+        }
+
+        .textBtn {
+            /* color: var(--color-sunorange); */
+            color: var(--color-irongray);
+            height: 36px;
+            padding: 0px 8px;
+            border: none;
+            background-color: transparent;
+        }
+
+        /* 下方頁碼 ---------------------------*/
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .pagination a {
+            color: var(--color-black);
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+        .pagination a.active {
+            background-color: var(--color-jasmine);
+            color: var(--color-white);
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: var(--color-whitesmoke);
+        }
+
+        /* 確認訂單按鈕位置----------- */
+
+        .rightdown {
+            float: right;
+        }
+
+        /* 出貨資訊----------------- */
+
+        .inputGrey,
+        .inputGrey2 {
+            background-color: var(--color-Silver);
+            border: 1px solid var(--color-border);
+            width: 100%;
+            border-radius: 0.3rem;
+        }
+
+        .inputGrey2,
+        .inputGrey3 {
+            width: 100%;
+        }
+
+        .outTable {
+            border-collapse: separate;
+            border-spacing: 40px 10px;
+        }
+
+        /* 失敗資訊------------------ */
+
+        #failContent {
+            background-color: var(--color-antiquewhite);
+        }
+
+        /* 時間軸------------------------------------------------ */
+
+        #timeline ol {
+            position: relative;
+            display: block;
+            margin-top: 50px;
+            margin-bottom: 100px;
+            height: 1px;
+            padding-inline-start: 0;
+        }
+
+        /* 線 */
+        #timeline li {
+            position: relative;
+            display: inline-block;
+            float: left;
+            width: calc(100% / 5);
+            height: 2px;
+            background: #FA8072;
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        #timeline li .diplome {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #timeline li .point {
+            content: "";
+            display: block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid #FF4500;
+            background: #fff;
+            position: absolute;
+            top: -8px;
+            left: calc(50% - 8px);
+        }
+
+        #timeline li .timestamp {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* 圓點顏色 */
+        #timeline li.active>.point {
+            border: 8px solid #FF4500;
+        }
+
+        /* 狀態、時間顏色 */
+        #timeline li.active>.diplome,
+        #timeline li.active>.timestamp {
+            color: #FA8072;
+        }
+
+        @media screen and (max-width: 1000px) {
+            table {
+                border: 0;
+            }
+
+            table thead {
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            table tr {
+                border-bottom: 3px solid var(--color-antiquewhite);
+                display: block;
+                font-size: 16px;
+            }
+
+            table td {
+                border-bottom: 1px solid var(--color-antiquewhite);
+                display: block;
+                text-align: right;
+
+            }
+
+            table td::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: var(--color-sunorange);
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: white;">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-11 mt-4 mb-5 px-0">
+
+                <!-- 分頁大標 -->
+                <!-- <h1 class="fs-2 fw-bold mb-4"><span class="text-black">小東西(訂單明細)</span></h1> -->
+
+                <!-- 不成立區塊 ---------------------------------------------------------------------------------------------------->
+
+                <div id="failContent" class="rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+
+                    <!-- <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                        <h3>訂單明細</h3>
+                    </div>
+
+
+                    <hr class="hr-color mt-0 mb-4"> -->
+
+                    <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                        <h4>訂單狀態：不成立</h4>
+                    </div>
+
+                    <br>
+
+                    <ul>
+                        <li>不成立類型：賣家取消／買家取消／商品遺失／商品損壞／逾時已由系統判定不成立</li>
+                        <li>原因：不想買了／賣家要求取消／修改訂單內容／對商品有疑慮／賣家出貨速度太慢／對賣家行為有疑慮（如：要求繳交保證金）／付款問題（如：餘額不足）／買錯商品／其他</li>
+                        <li>買家要求／已售完／無法運送範圍</li>
+                    </ul>
+
+
+
+                    <br>
+                </div>
+
+
+                <!-- 確認前前前前前前訂單明細----------------------- -->
+
+                <div id="lessContent" class="bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+
+                    <!-- <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                        <h3>訂單明細</h3>
+                    </div>
+
+
+                    <hr class="hr-color mt-0 mb-4"> -->
+
+                    <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                        <h4>商品清單</h4>
+                    </div>
+
+                    <table class="orderStocktable fs-6 fw-normal mb-4">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">品名規格</th>
+                                <th style="width: 13%;">訂購數量</th>
+                                <th style="width: 13%;">銷售單價</th>
+                                <th style="width: 13%;">庫存可配數</th>
+                                <th style="width: 15%;">總金額</th>
+                            </tr>
+                        </thead>
+
+                        <!-- 項目內容 -->
+
+                        <tr class="orderTrAll"></tr>
+                        <tr class="orderTrAll"></tr>
+
+                    </table>
+
+                    <div class="pagination">
+                        <a href="#">&laquo;</a>
+                        <a class="active" href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                    </div>
+
+                    <br>
+
+                    <hr class="hr-color mt-0 mb-4">
+
+
+
+                    <div class="rightdown">
+                        <button class="outLinedBtn" style="color: var(--color-lightorange);"
+                            onclick="callParent()">確認訂單</button><button class="textBtn me-2"
+                            onclick="callParent()">取消訂單</button>
+                    </div>
+
+                    <br>
+                </div>
+
+                <!-- 確認後後後後後後後訂單明細----------------------- -->
+
+                <div id="moreContent" class=" bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+                    <!-- 
+                    <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                        <h3>訂單明細</h3>
+                    </div>
+
+
+                    <hr class="hr-color mt-0 mb-4"> -->
+
+                    <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                        <h4>商品清單</h4>
+                    </div>
+
+                    <table class="orderStocktable1 fs-6 fw-normal mb-4" id="orderStocktable1">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">品名規格</th>
+                                <th style="width: 13%;">訂購數量</th>
+                                <th style="width: 13%;">銷售單價</th>
+                                <th style="width: 13%;">庫存可配數</th>
+                                <th style="width: 15%;">總金額</th>
+                            </tr>
+                        </thead>
+
+                        <!-- 項目內容 -->
+
+                        <tr class="orderTrAll"></tr>
+                        <tr class="orderTrAll"></tr>
+
+                    </table>
+
+                    <div class="pagination">
+                        <a href="#">&laquo;</a>
+                        <a class="active" href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                    </div>
+
+                    <br>
+
+                    <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                        <h4>出貨資訊</h4>
+                    </div>
+
+                    <table class="outTable lh-lg" style="width: 100%;" id="outTable">
+                        <tr>
+                            <th style="width: 50%;">收貨人姓名</th>
+                            <th style="width: 50%;">收貨人電話</th>
+                        </tr>
+
+                        <tr>
+                            <td><input type="text" class="inputGrey" readonly value="" /></td>
+                            <td><input type="text" class="inputGrey" readonly value="" /></td>
+                        </tr>
+
+                        <tr>
+                            <th>收件地址</th>
+                            <th>付款方式</th>
+                        </tr>
+
+                        <tr>
+                            <td><input type="text" class="inputGrey2" readonly value="" /></td>
+                            <td><input type="text" class="inputGrey" readonly value="" /></td>
+                        </tr>
+
+                        <tr>
+
+                            <th>統一編號</th>
+                            <th>銷售合計</th>
+                        </tr>
+
+                        <tr>
+
+                            <td><input type="text" class="inputGrey" readonly value="" /></td>
+                            <td><input type="text" class="inputGrey" readonly value="" /></td>
+                        </tr>
+
+                        <hr class="hr-color mt-0 mb-4">
+
+                    </table>
+
+                    <br>
+
+                    <!-- <hr class="hr-color mt-0 mb-4"> -->
+
+                    <!-- 時間軸 ------------------------------------>
+                    <div id="timeLineContent">
+                        <tr>
+                            <td colspan="6">
+                                <div id="timeline">
+                                    <ol></ol>
+                                </div>
+                            </td>
+                        </tr>
+                    </div>
+
+                    <div class="rightdown">
+                        <!-- <button class="outLinedBtn" style="color: var(--color-lightorange);"
+                            onclick="callParent()">匯出出貨單</button> -->
+
+                        <!-- <button id="btnExport" class="outLinedBtn" style="color: var(--color-lightorange);"
+                            onclick="turnToExcel()">匯出Excel</span>
+                        </button> -->
+
+                        <button id="btnExport" class="outLinedBtn" style="color: var(--color-lightorange);"
+                            onclick="turnToExcel()">匯出Excel</span>
+                        </button>
+
+                        <button id="exportPDF" class="outLinedBtn" style="color: var(--color-lightorange);">
+                            匯出PDF 
+                        </button>
+
+                        <button class="outLinedBtn" style="color: var(--color-lightorange);"
+                            onclick="callParent()">全配及出貨</button>
+                        <button class="textBtn me-2" onclick="callParent()">取消訂單</button>
+                    </div>
+
+                    <br>
+
+                    <table id="turnTable" style="display: none;">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr></tr>
+                        <tr></tr>
+                        <tr></tr>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/javascript/materialdesigninit.js"></script>
+
+    <script>
+        // JSON假資料  ----------------------------------------------------------------------------------------------------------------------
+        // ProductNameSpec(品名規格)、?CallShipping(訂購數量)、UnitSellPrice(銷售單價)
+        // ?Noshipping(未配數)、?StockOwn(庫存可配數)、?detailTotal(明細總金額)
+        // 時間軸：Status(狀態)、訂單時間：OrderStatus(交易狀態)、OrderTime(訂單送出時間)、AcceptOrderTime(訂單接受時間)、ExportTime(訂單出貨時間)、SellerEstimatedArriveTime(賣家預計到貨時間)、ArriveOrderTime(貨物送達時間)、CompleteOrderTime(訂單完成時間)、CancelOrderTime(訂單不完成時間)
+
+        // OrderStatus(交易狀態)：1是尚未送出叫貨單_還沒送出訂單、2是待確認_訂單送出、3是待出貨_訂單成立、4是出貨中、5是待收貨_待收貨入庫、6是訂單完成_入庫完成、7是訂單不成立_賣家或買家取消
+
+        var detailList =
+            [
+                {
+                    ContactPerson: "蘇沐橙",
+                    Address: "408台中市南屯區公益路二段51號18樓",
+                    Mobile: "0912345678",
+                    payMethod: "銀行轉帳/月結30(Net30)",
+                    TaxId: "05076416",
+                    SellerExpectTime: null,
+                    total: 5960,
+
+                    OrderStatus: 2,
+                    OrderTime: "09/23 12:51",
+                    AcceptOrderTime: "09/26 12:51",
+                    ExportTime: "09/27 11:22",
+                    ArriveOrderTime: "09/28 13:33",
+                    CompleteOrderTime: "09/29 14:49"
+                }
+            ];
+
+        var detailItemList =
+            [
+                {
+                    ProductNameSpec: "生鮮熟食干貝/禮盒裝",
+                    CallShipping: 6,
+                    UnitSellPrice: 500,
+                    StockOwn: 10,
+                    detailTotal: 5000
+                },
+                {
+                    ProductNameSpec: "牛奶貝/1斤",
+                    CallShipping: 96,
+                    UnitSellPrice: 10,
+                    StockOwn: 300,
+                    detailTotal: 960
+                },
+            ];
+
+
+
+        var temp = [
+            {
+                商品數量: 2
+            },
+            {
+                ProductNameSpec: "生鮮熟食干貝/禮盒裝",
+                CallShipping: 6,
+                UnitSellPrice: 500,
+                StockOwn: 10,
+                detailTotal: 5000
+            },
+            {
+                ProductNameSpec: "牛奶貝/1斤",
+                CallShipping: 96,
+                UnitSellPrice: 10,
+                StockOwn: 300,
+                detailTotal: 960
+            },
+            {
+                OrderStatus: 2,
+                OrderTime: "09/23 12:51",
+                AcceptOrderTime: "09/26 12:51",
+                ExportTime: "09/27 11:22",
+                ArriveOrderTime: "09/28 13:33",
+                CompleteOrderTime: "09/29 14:49"
+            },
+            {
+                ContactPerson: "蘇沐橙",
+                Address: "408台中市南屯區公益路二段51號18樓",
+                Mobile: "0912345678",
+                payMethod: "銀行轉帳/月結30(Net30)",
+                TaxId: "05076416",
+                SellerExpectTime: null,
+                total: 5960,
+            }
+        ]
+
+
+        var temp2 = [
+            {
+                商品: [
+                    {
+                        productid: 10001,
+                        訂單編號: 10002,
+                        ProductNameSpec: "生鮮熟食干貝/禮盒裝",
+                        CallShipping: 6,
+                        UnitSellPrice: 500,
+                        StockOwn: 10,
+                        detailTotal: 5000
+                    }, {
+                        productid: 10001,
+                        訂單編號: 10002,
+                        ProductNameSpec: "牛奶貝/1斤",
+                        CallShipping: 96,
+                        UnitSellPrice: 10,
+                        StockOwn: 300,
+                        detailTotal: 960
+                    }
+                ]
+
+            }, {
+                OrderStatus: 2,
+                OrderTime: "09/23 12:51",
+                AcceptOrderTime: "09/26 12:51",
+                ExportTime: "09/27 11:22",
+                ArriveOrderTime: "09/28 13:33",
+                CompleteOrderTime: "09/29 14:49"
+            }, {
+                ContactPerson: "蘇沐橙",
+                Address: "408台中市南屯區公益路二段51號18樓",
+                Mobile: "0912345678",
+                payMethod: "銀行轉帳/月結30(Net30)",
+                TaxId: "05076416",
+                SellerExpectTime: null,
+                total: 5960,
+            }
+        ]
+
+
+        // var temp3 = [
+        //     {
+        //         productid: 10001,
+        //         訂單編號: 10002,
+        //         ProductNameSpec: "生鮮熟食干貝/禮盒裝",
+        //         CallShipping: 6,
+        //         UnitSellPrice: 500,
+        //         StockOwn: 10,
+        //         detailTotal: 5000
+        //         OrderStatus: 2,
+        //         OrderTime: "09/23 12:51",
+        //         AcceptOrderTime: "09/26 12:51",
+        //         ExportTime: "09/27 11:22",
+        //         ArriveOrderTime: "09/28 13:33",
+        //         CompleteOrderTime: "09/29 14:49"
+        //         ContactPerson: "蘇沐橙",
+        //         Address: "408台中市南屯區公益路二段51號18樓",
+        //         Mobile: "0912345678",
+        //         payMethod: "銀行轉帳/月結30(Net30)",
+        //         TaxId: "05076416",
+        //         SellerExpectTime: null,
+        //         total: 5960,
+        //     }, {
+        //         productid: 10001,
+        //         訂單編號: 10002,
+        //         ProductNameSpec: "牛奶貝/1斤",
+        //         CallShipping: 96,
+        //         UnitSellPrice: 10,
+        //         StockOwn: 300,
+        //         detailTotal: 960
+        //         OrderStatus: 2,
+        //         OrderTime: "09/23 12:51",
+        //         AcceptOrderTime: "09/26 12:51",
+        //         ExportTime: "09/27 11:22",
+        //         ArriveOrderTime: "09/28 13:33",
+        //         CompleteOrderTime: "09/29 14:49"
+        //         ContactPerson: "蘇沐橙",
+        //         Address: "408台中市南屯區公益路二段51號18樓",
+        //         Mobile: "0912345678",
+        //         payMethod: "銀行轉帳/月結30(Net30)",
+        //         TaxId: "05076416",
+        //         SellerExpectTime: null,
+        //         total: 5960,
+        //     }
+        // ]
+
+        // 欄位中文名稱對應
+        let detailListName = [
+            {
+                ContactPerson: "收貨人姓名",
+                Address: "收件地址",
+                Mobile: "收貨人電話",
+                payMethod: "付款方式",
+                TaxId: "統一編號",
+                SellerExpectTime: "預計出貨日期",
+                total: "銷售合計",
+
+
+                OrderTime: "待我方確認",
+                AcceptOrderTime: "待我方出貨",
+                ExportTime: "我方出貨中",
+                ArriveOrderTime: "待採購商收貨",
+                CompleteOrderTime: "訂單完成",
+                CancelOrderTime: "不成立"
+            }
+        ]
+
+        let detailItemListName = [
+            {
+                ProductNameSpec: "品名規格",
+                CallShipping: "訂購數量",
+                UnitSellPrice: "銷售單價",
+                StockOwn: "庫存可配數",
+                detailTotal: "明細總金額"
+            }
+        ]
+
+        // 撈資料(使用非同步資料的方式撈)。
+        downloadData();
+        async function downloadData() {
+
+            // 與Server對接的ajax。
+            // 邊撈同時進行後續動作。
+            // var result = await $.ajax({
+            //     type: "get",
+            //     url: "http://localhost:3000/home/news"
+            // });
+
+            // allStockList = JSON.parse(result);
+
+            // 撈完後解析假資料並更新畫面內容。
+            reNewData();
+        }
+
+        function reNewData() {
+            let pageDataNum = 5;  //每頁最多5筆資料。
+
+            for (let i = 1; i <= pageDataNum; i++) {
+
+                // 清空Table，把除了<th>內部<tr>之外的所有<tr>清空。
+                $(".orderStocktable tr")[i].innerHTML = "";
+                $(".orderStocktable1 tr")[i].innerHTML = "";
+
+                // 判斷交易狀態
+                let theStatus = null;
+                switch (detailList[i - 1].OrderStatus) {
+                    case 2:
+                        theStatus = "待我方確認";
+                        break;
+                    case 3:
+                        theStatus = "待我方出貨";
+                        break;
+                    case 4:
+                        theStatus = "我方出貨中";
+                        break;
+                    case 5:
+                        theStatus = "待採購商收貨";
+                        break;
+                    case 6:
+                        theStatus = "訂單完成";
+                        break;
+                    case 7:
+                        theStatus = "不成立";
+                        break;
+                    default:
+                        console.log("交易狀態錯誤");
+                        break;
+                }
+
+
+                // 判斷時間軸
+                let theTime = null;
+                switch (detailList[i - 1].OrderStatus) {
+                    case 2:
+                        theTime = `<li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].OrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].OrderTime}</p>
+                                        </li>
+                                        <li class="point">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp"></p>
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ExportTime}</h6>
+                                            <!-- <p class="timestamp">09/23 17:33</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ArriveOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 09:42</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].CompleteOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 17:24</p> -->
+                                        </li>`;
+                        break;
+                    case 3:
+                        theTime = `<li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].OrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].OrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].AcceptOrderTime}</p>
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ExportTime}</h6>
+                                            <!-- <p class="timestamp">09/23 17:33</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ArriveOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 09:42</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].CompleteOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 17:24</p> -->
+                                        </li>`;
+                        break;
+                    case 4:
+                        theTime = `<li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].OrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].OrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].AcceptOrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ExportTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].ExportTime}</p>
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ArriveOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 09:42</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].CompleteOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 17:24</p> -->
+                                        </li>`;
+                        break;
+                    case 5:
+                        theTime = `<li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].OrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].OrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].AcceptOrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ExportTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].ExportTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ArriveOrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].ArriveOrderTime}</p>
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].CompleteOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 17:24</p> -->
+                                        </li>`;
+                        break;
+                    case 6:
+                        theTime = `<li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].OrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].OrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].AcceptOrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ExportTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].ExportTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].ArriveOrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].ArriveOrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${detailListName[0].CompleteOrderTime}</h6>
+                                            <p class="timestamp">${detailList[i - 1].CompleteOrderTime}</p>
+                                        </li>`;
+                        break;
+                    case 7:
+                        theTime = "不成立";
+                        break;
+                    default:
+                        console.log("交易狀態錯誤");
+                        break;
+                }
+
+
+                // 創造<tr>的Html格式，並將資料帶入。
+                // 確認前的----------------------------------------------
+
+                let trHtmlData =
+                    `<td data-label=${detailItemListName[0].ProductNameSpec}>${detailItemList[i - 1].ProductNameSpec}</td>
+                            <td data-label=${detailItemListName[0].CallShipping}>${detailItemList[i - 1].CallShipping}</td>
+                            <td data-label=${detailItemListName[0].UnitSellPrice}>${detailItemList[i - 1].UnitSellPrice}</td>
+                            <td data-label=${detailItemListName[0].StockOwn}>${detailItemList[i - 1].StockOwn}</td>
+                            <td data-label=${detailItemListName[0].detailTotal}>${detailItemList[i - 1].detailTotal}</td>`
+
+                // 確認後的----------------------------------------------------------
+
+                let trHtmlData1 =
+                    `<td data-label=${detailItemListName[0].ProductNameSpec}>${detailItemList[i - 1].ProductNameSpec}</td>
+                    <td data-label=${detailItemListName[0].CallShipping}>${detailItemList[i - 1].CallShipping}</td>
+                    <td data-label=${detailItemListName[0].UnitSellPrice}>${detailItemList[i - 1].UnitSellPrice}</td>
+                    <td data-label=${detailItemListName[0].StockOwn}>${detailItemList[i - 1].StockOwn}</td>
+                    <td data-label=${detailItemListName[0].detailTotal}>${detailItemList[i - 1].detailTotal}</td>`
+
+
+                // 把製作完的tr放回去table中。
+                $(".orderStocktable tr")[i].innerHTML = trHtmlData;
+                $(".orderStocktable1 tr")[i].innerHTML = trHtmlData1;
+
+                // 時間軸----------------------------------------------------------
+
+                for (let j = 1; j <= 5; j++) {
+                    $("#timeLineContent ol")[0].innerHTML = "";
+
+                    let liHtmlData =
+                        `${theTime}`
+
+                    $("#timeLineContent ol")[0].innerHTML = liHtmlData;
+
+                }
+
+
+                // 出貨資訊----------------------------------------------------------
+
+                // 其他
+                $(".inputGrey")[i - 1].value = "";
+
+                let trHtmlData11 = `${detailList[i - 1].ContactPerson}`
+                let trHtmlData12 = `${detailList[i - 1].Mobile}`
+                let trHtmlData13 = `${detailList[i - 1].payMethod}`
+                let trHtmlData14 = `${detailList[i - 1].TaxId}`
+                let trHtmlData15 = `${detailList[i - 1].total}`
+
+
+                $(".inputGrey")[0].value = trHtmlData11;
+                $(".inputGrey")[1].value = trHtmlData12;
+                $(".inputGrey")[2].value = trHtmlData13;
+                $(".inputGrey")[3].value = trHtmlData14;
+                $(".inputGrey")[4].value = trHtmlData15;
+
+
+                //地址
+                $(".inputGrey2")[i - 1].value = "";
+                let trHtmlData16 = `${detailList[i - 1].Address}`
+                $(".inputGrey2")[0].value = trHtmlData16;
+
+
+            }
+        }
+
+    </script>
+
+    <script>
+
+        // iframe的外部父類會呼叫這個function
+        function parentCall(showcontent) {
+
+
+            if (showcontent == 0) {
+                // 確認前訂單
+                $("#lessContent").show();
+                $("#moreContent").hide();
+                $("#failContent").hide();
+                $("#timeLineContent").hide();
+            } else if (showcontent == 1) {
+                // 確認後訂單
+                $("#lessContent").hide();
+                $("#moreContent").show();
+                $("#failContent").hide();
+                $("#timeLineContent").show();
+            } else if (showcontent == 2) {
+                // 訂單不成立
+                $("#lessContent").show();
+                $("#moreContent").hide();
+                $("#failContent").show();
+                $("#timeLineContent").hide();
+            }
+        }
+
+        // 呼叫外部父類別的方法closeStaticBackdrop()
+        function callParent() {
+            if (window.parent && window.parent.SetComponent) {
+                window.parent.SetComponent();	//呼叫父頁面的SetComponent方法
+            }
+        }
+
+    </script>
+
+    <script>
+        // 轉換excel的方法
+        // function turnToExcel(){
+        //     $("table tr td")[0].innerHTML = $(".testTable tr td")[0].innerHTML;
+
+
+        //     tableToExcel('table','example')
+        // }
+
+        function turnToExcel() {
+            // i <= 2
+            for (let i = 1; i <= 2; i++) {
+
+                // 商品項目
+                // $("#turnTable tr")[i - 1].innerHTML =
+                //     $(".orderStocktable1 tr")[i - 1].innerHTML
+                // console.log($("#turnTable tr")[i - 1].innerHTML);
+            
+
+                //出貨資訊
+                // -------------------------------
+                $("#turnTable th")[0].innerHTML =
+                    $(".outTable th")[0].innerHTML
+                console.log($("#turnTable th")[0].innerHTML);
+
+                $("#turnTable td")[0].innerHTML =
+                    `${detailList[i - 1].ContactPerson}`
+                console.log($("#turnTable td")[0].innerHTML);
+                // ------------------------------
+                $("#turnTable th")[1].innerHTML =
+                    $(".outTable th")[1].innerHTML
+                console.log($("#turnTable th")[1].innerHTML);
+
+                $("#turnTable td")[1].innerHTML =
+                    `${detailList[i - 1].Mobile}`
+                console.log($("#turnTable td")[1].innerHTML);
+                // -------------------------------
+                $("#turnTable th")[2].innerHTML =
+                    $(".outTable th")[2].innerHTML
+                console.log($("#turnTable th")[2].innerHTML);
+
+                $("#turnTable td")[2].innerHTML =
+                    `${detailList[i - 1].Address}`
+                console.log($("#turnTable td")[2].innerHTML);
+                // -------------------------------
+                $("#turnTable th")[3].innerHTML =
+                    $(".outTable th")[3].innerHTML
+                console.log($("#turnTable th")[3].innerHTML);
+
+                $("#turnTable td")[3].innerHTML =
+                    `${detailList[i - 1].payMethod}`
+                console.log($("#turnTable td")[3].innerHTML);
+                // -------------------------------
+                $("#turnTable th")[4].innerHTML =
+                    $(".outTable th")[4].innerHTML
+                console.log($("#turnTable th")[4].innerHTML);
+
+                $("#turnTable td")[4].innerHTML =
+                    `${detailList[i - 1].TaxId}`
+                console.log($("#turnTable td")[4].innerHTML);
+                // -------------------------------
+                $("#turnTable th")[5].innerHTML =
+                    $(".outTable th")[5].innerHTML
+                console.log($("#turnTable th")[5].innerHTML);
+
+                $("#turnTable td")[5].innerHTML =
+                    `${detailList[i - 1].total}`
+                console.log($("#turnTable td")[5].innerHTML);
+
+                // 商品項目
+                $("#turnTable tr")[6].innerHTML =
+                    `<th colspan="5">商品清單<th>`
+                console.log($("#turnTable tr")[6].innerHTML);
+
+                $("#turnTable tr")[7].innerHTML =
+                    $(".orderStocktable1 tr")[i - 1].innerHTML
+                console.log($("#turnTable tr")[7].innerHTML);
+
+                $("#turnTable tr")[8].innerHTML =
+                    $(".orderStocktable1 tr")[1].innerHTML
+                console.log($("#turnTable tr")[8].innerHTML);
+
+
+
+                // $("#turnTable td")[0].innerHTML =
+                //     $(".orderStocktable1 td")[i - 1].innerHTML
+                console.log($("#turnTable")[0].innerHTML);
+
+                tableToExcel('turnTable', 'example')
+            }
+        }
+    </script>
+
+    <script>
+
+        var tableToExcel = (function () {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+                , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+                , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+                , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (table, name) {
+                if (!table.nodeType) table = document.getElementById(table)
+                var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+                window.location.href = uri + base64(format(template, ctx))
+            }
+        })()
+
+    </script>
+
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+    <script src='/javascript/jspdf.debug.js'></script>
+
+    <script>
+        document.getElementById('exportPDF').addEventListener('click', function () {
+
+            var doc = new jsPDF();
+            html2canvas(document.getElementById('moreContent'), {
+                onrendered: function (canvas) {
+                    var image = canvas.toDataURL("image/png");
+                    doc.addImage(canvas.toDataURL('image/jpeg', 1.0),
+                        'JPEG',
+                        25,
+                        25,
+                        210 - 50,
+                        ((210 - 50) / canvas.width) * canvas.height);
+                    doc.save('orderdetails.pdf');
+                }
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

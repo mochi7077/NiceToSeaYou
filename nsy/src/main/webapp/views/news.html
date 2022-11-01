@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagecontent</title>
+
+    <!-- Material Design -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+    <!-- ICON CSS -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+
+    <!-- globalstyle -->
+    <link rel="stylesheet" href="../css/globalstyle.css">
+    <!-- globalattributes -->
+    <link rel="stylesheet" href="../css/globalattributes.css">
+
+
+    <!-- 複數頁面使用CSS效果 -->
+    <link rel="stylesheet" href="/css/pluralpagestyle.css">
+
+
+
+    <style>
+        .newstable {
+            table-layout: fixed;
+            word-break: break-all;
+
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 0.3rem;
+            border: 1px solid var(--color-border);
+        }
+
+        .newstable th {
+            height: var(--table-thheight);
+
+            color: var(--color-irongray);
+            font-weight: var(--font-weight-contenttitle);
+            background-color: var(--color-tableth);
+        }
+
+        .newstable td {
+            /* height: var(--table-tdheight); */
+            padding-top: 18px;
+            padding-bottom: 18px;
+            border-top: 1px solid var(--color-border);
+
+        }
+
+        .newstable td q {
+            quotes: '【''】';
+        }
+
+        .newstable td:first-child {
+            text-align: center;
+            vertical-align: text-top;
+            color: var(--color-irongray);
+        }
+
+        .newstable td span:nth-child(4) {
+            font-size: 12px;
+        }
+
+        .newstable td span:not(:first-child) {
+            color: var(--color-irongray);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            background: var(--color-alizarincrimson);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <!-- border border-primary  -->
+            <div class="col-11 mt-4 mb-5 px-0">
+
+                <h1 class="fs-2 fw-bolder mb-4"><span class="text-black">通知與動向</span></h1>
+
+                <div class="bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 下拉選單 -->
+                    <div class="mdc-select mdc-select--outlined w-10 fs-6 fw-normal mb-4">
+                        <div class="mdc-select__anchor" aria-labelledby="outlined-select-label" style="height: 36px;">
+                            <span class="mdc-notched-outline">
+                                <span class="mdc-notched-outline__leading"></span>
+                                <span class="mdc-notched-outline__trailing"></span>
+                            </span>
+                            <span class="mdc-select__selected-text-container">
+                                <span id="demo-selected-text" class="mdc-select__selected-text"></span>
+                            </span>
+                            <!-- 箭頭 -->
+                            <span class="mdc-select__dropdown-icon">
+                                <svg class="mdc-select__dropdown-icon-graphic" viewBox="7 10 10 5" focusable="false">
+                                    <polygon class="mdc-select__dropdown-icon-inactive" stroke="none"
+                                        fill-rule="evenodd" points="7 15 12 10 17 15">
+                                    </polygon>
+                                    <polygon class="mdc-select__dropdown-icon-active" stroke="none" fill-rule="evenodd"
+                                        points="7 10 12 15 17 10">
+                                    </polygon>
+                                </svg>
+                            </span>
+                        </div>
+
+                        <!--  aria-selected="true" -->
+                        <div class="mdc-select__menu mdc-menu mdc-menu-surface">
+                            <ul class="mdc-list">
+                                <li class="mdc-list-item" data-value="">
+                                    <span class="mdc-list-item__ripple"></span>
+                                </li>
+                                <li class="mdc-list-item py-2  mdc-list-item--selected" data-value="所有通知">
+                                    <span class="mdc-list-item__ripple"></span>
+                                    <span class="mdc-list-item__text">所有通知</span>
+                                </li>
+                                <li class="mdc-list-item py-2" data-value="庫存管理通知">
+                                    <span class="mdc-list-item__ripple"></span>
+                                    <span class="mdc-list-item__text">庫存管理通知</span>
+                                </li>
+                                <li class="mdc-list-item py-2" data-value="叫貨管理通知">
+                                    <span class="mdc-list-item__ripple"></span>
+                                    <span class="mdc-list-item__text">叫貨管理通知</span>
+                                </li>
+                                <li class="mdc-list-item py-2" data-value="接單管理通知">
+                                    <span class="mdc-list-item__ripple"></span>
+                                    <span class="mdc-list-item__text">接單管理通知</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+                    <hr class="hr-color mt-0">
+
+                    <table class="newstable fs-6 fw-normal w-100 mb-4">
+                        <thead>
+                            <tr>
+                                <th width="50"></th>
+                                <th width="100%">通知內容</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td data-label="icon"><i class="fas fa-cubes fs-5"></i></td>
+                            <td data-label="內容">
+                                <q>庫存管理通知</q><span class="status-indicator"></span>
+                                <span class="d-block py-3">庫存商品牛奶貝已向XXX供應商自動補貨，等待XXX供應商確認。</span>
+                                <span class="d-block">2022/09/01 11:30:30</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-label="icon"><i class="fas fa-shopping-cart fs-5"></i></td>
+                            <td data-label="內容">
+                                <q>叫貨管理通知</q><span class="status-indicator"></span>
+                                <span class="d-block py-3">收到XXX廠商的鱸魚訂單，請於2022/09/08 10:30前進行訂單確認。</span>
+                                <span class="d-block">2022/09/01 11:30:30</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-label="icon"><i class="fas fa-money-check-alt fs-5"></i></td>
+                            <td data-label="內容">
+                                <q>出貨管理通知</q><span class=""></span>
+                                <span class="d-block py-3">#220154879訂單已完成撿貨及出貨。</span>
+                                <span class="d-block">2022/09/01 11:30:30</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-label="icon"><i class="fas fa-money-check-alt fs-5"></i></td>
+                            <td data-label="內容">
+                                <q>出貨管理通知</q><span class=""></span>
+                                <span class="d-block py-3">#220154666訂單已完成撿貨及出貨。</span>
+                                <span class="d-block">2022/09/01 11:30:30</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-label="icon"><i class="fas fa-money-check-alt fs-5"></i></td>
+                            <td data-label="內容">
+                                <q>出貨管理通知</q><span class=""></span>
+                                <span class="d-block py-3">#220154777訂單已完成撿貨及出貨。</span>
+                                <span class="d-block">2022/09/01 11:30:30</span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="pagination fs-6 fw-normal">
+                        <a href="" onclick="return false">&laquo;</a>
+                        <a class="active" href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="" onclick="return false">&raquo;</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/javascript/materialdesigninit.js"></script>
+
+    <script>
+
+        // 目前分頁按鈕位置，初始化為最左邊1。-------------------------------------------------------------------------------------------------
+
+        let nowPageNum = 1;
+        // 最下方分頁鈕點擊時，按鈕狀態改變。
+        $(".pagination a").on("click", function () {
+            if ($(this).index() != 0 && $(this).index() != 6) {
+                $(".pagination a").removeClass('active');
+                $(this).addClass('active');
+                nowPageNum = $(this).index();
+
+                // 變換表格內容。
+
+            } else if ($(this).index() == 0) {
+
+                // 如果最左邊的第一個數字是1，就不會更新頁籤。
+                if ($(".pagination a")[1].innerHTML != 1) {
+
+                    // 更新頁籤碼，所有頁籤碼-1
+                    for (var i = 1; i <= 5; i++) {
+                        let pageNum = parseInt($(".pagination a")[i].innerHTML);
+                        $(".pagination a")[i].innerHTML = pageNum - 1;
+                    }
+
+                    // 更新active位置。
+                    // 如果active位置在5，則不移動。
+                    // 非5時，向右移動一格。
+                    if (nowPageNum != 5) {
+                        $(".pagination a").removeClass('active');
+                        $(".pagination a")[nowPageNum + 1].classList.add('active');
+                        nowPageNum += 1;
+
+                    } else {
+                        $(".pagination a").removeClass('active');
+                        $(".pagination a")[nowPageNum].classList.add('active');
+                        nowPageNum = 5;
+                    }
+
+                }
+
+            } else {
+
+                // 更新頁籤碼，所有頁籤碼+1
+                for (var i = 1; i <= 5; i++) {
+                    let pageNum = parseInt($(".pagination a")[i].innerHTML);
+                    $(".pagination a")[i].innerHTML = pageNum + 1;
+                }
+
+                // 更新active位置。
+                // 如果active位置在1，則不移動。
+                // 非1時，向左移動一格。
+                if (nowPageNum != 1) {
+                    $(".pagination a").removeClass('active');
+                    $(".pagination a")[nowPageNum - 1].classList.add('active');
+                    nowPageNum -= 1;
+
+                } else {
+                    $(".pagination a").removeClass('active');
+                    $(".pagination a")[nowPageNum].classList.add('active');
+                    nowPageNum = 1;
+                }
+
+            }
+        })
+
+        //----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    </script>
+
+</body>
+
+</html>

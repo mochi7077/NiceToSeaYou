@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagecontent</title>
+
+
+    <!-- Material Design -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+    <!-- ICON CSS -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+
+    <!-- globalstyle -->
+    <link rel="stylesheet" href="../css/globalstyle.css">
+    <!-- globalattributes -->
+    <link rel="stylesheet" href="../css/globalattributes.css">
+
+
+    <!-- 複數頁面使用CSS效果 -->
+    <link rel="stylesheet" href="/css/pluralpagestyle.css">
+
+    <!-- 僅限本頁使用CSS效果 -->
+
+
+
+
+    <style>
+        /* 最上層Todo的Table不需要框線樣式，故分開 --------------------------- */
+        .pageTodoTable {
+            margin: auto;
+            table-layout: fixed;
+            word-break: break-all;
+            word-wrap: break-word;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* 第二格td的邊框顏色 */
+        .pageTodoTable td:nth-child(2) {
+            border-color: var(--color-border);
+        }
+
+        .pageTodoTable td:hover {
+            background-color: var(--color-informationhover);
+            border-radius: 0.3rem;
+            cursor: pointer;
+        }
+
+        .pageTodoTable td p {
+            /* color: var(--color-sunorange); */
+            color: var(--color-alizarincrimson);
+        }
+
+
+        /* 最下方兩層Table需要框線樣式 --------------------------- */
+        .pageTable {
+            margin: auto;
+            table-layout: fixed;
+            word-break: break-all;
+            word-wrap: break-word;
+            width: 100%;
+
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 0.3rem;
+            border: 1px solid var(--color-border);
+        }
+
+        .pageTable .stockTable th {
+            height: var(--table-thheight);
+
+            color: var(--color-irongray);
+            font-weight: var(--font-weight-contenttitle);
+            background-color: var(--color-tableth);
+        }
+
+        .pageTable .buyTable th {
+            height: var(--table-thheight);
+
+            color: var(--color-secfont);
+            font-weight: var(--font-weight-contenttitle);
+            background-color: var(--color-sectablefirst);
+        }
+
+        .pageTable .sellTable th {
+            height: var(--table-thheight);
+
+            color: var(--color-secfont);
+            font-weight: var(--font-weight-contenttitle);
+            background-color: var(--color-sectablesecond);
+        }
+
+        .pageTable td {
+            /* height: var(--table-tdheight); */
+            padding-top: 18px;
+            padding-bottom: 18px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        /* 時間軸------------------------------------------------ */
+
+        #timeline ol {
+            position: relative;
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 72px;
+            height: 1px;
+            padding-inline-start: 0;
+        }
+
+        /* 線 */
+        #timeline li {
+            position: relative;
+            display: inline-block;
+            float: left;
+            width: calc(100% / 2);
+            height: 2px;
+            background: #FA8072;
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        #timeline li .diplome {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #timeline li .point {
+            content: "";
+            display: block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid #FF4500;
+            background: #fff;
+            position: absolute;
+            top: -8px;
+            left: calc(50% - 8px);
+        }
+
+        #timeline li .timestamp {
+            text-align: center;
+        }
+
+        /* 圓點顏色 */
+        #timeline li.active>.point {
+            border: 8px solid #FF4500;
+        }
+
+        /* 狀態、時間顏色 */
+        #timeline li.active>.diplome,
+        #timeline li.active>.timestamp {
+            color: #FA8072;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-11 mt-4 mb-5 px-0">
+
+                <!-- 分頁大標 -->
+                <h1 class="fs-2 fw-bold mb-4"><span class="text-black">馬雲，歡迎回到管理介面！</span></h1>
+
+
+                <div class="bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+                    <p class="fs-5 d-inline-flex mb-4 contenttitle">待辦事項</p>
+
+                    <table class="pageTodoTable fs-6 fw-normal">
+                        <tr>
+                            <td onclick="callParent(0)">
+                                <p class="fs-2">17</p>
+                                <span class="d-block pb-2">待確認緊急庫存清單</span>
+                            </td>
+                            <td class="border-1 border-top-0 border-bottom-0" onclick="callParent(1)">
+                                <p class="fs-2">10</p>
+                                <span class="d-block pb-2">待確認緊急叫貨清單</span>
+                            </td>
+
+                            <td onclick="callParent(2)">
+                                <p class="fs-2">36</p>
+                                <span class="d-block pb-2">待確認緊急接單清單</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <!-- 緊急庫存清單---------------------------------------------------------------------------------- -->
+                <div class="pageTable1 bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="fs-5 d-inline-flex mb-4 contenttitle">緊急庫存清單</p>
+                        </div>
+
+                        <!-- <div>
+                            <button class="mdc-button">
+                                <span class="mdc-button__ripple"></span>
+                                <span class="mdc-button__label fs-6 fw-normal">文字</span>
+                            </button>
+                            <button class="mdc-button mdc-button--outlined">
+                                <span class="mdc-button__ripple"></span>
+                                <span class="mdc-button__label fs-6 fw-normal">外框外框外框</span>
+                            </button>
+                            <button class="mdc-button mdc-button--raised">
+                                <span class="mdc-button__label fs-6 fw-normal">底色</span>
+                            </button>
+                        </div> -->
+
+                        <div>
+                            <button class="mdc-button mdc-button--outlined" onclick="callParent(0)">
+                                <span class="mdc-button__ripple"></span>
+                                <span class="mdc-button__label fs-6 fw-normal">庫存概況</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <table class="pageTable fs-6 fw-normal text-center">
+                        <tr class="stockTable">
+                        </tr>
+                        <tr></tr>
+                        <tr></tr>
+                        <tr></tr>
+                    </table>
+
+                </div>
+
+
+                <!-- 叫貨清單---------------------------------------------------------------------------------- -->
+                <div class="pageTable2 bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="fs-5 d-inline-flex mb-4 contenttitle">緊急叫貨清單</p>
+                        </div>
+                        <div>
+                            <button class="mdc-button mdc-button--outlined" onclick="callParent(1)">
+                                <span class="mdc-button__ripple"></span>
+                                <span class="mdc-button__label fs-6 fw-normal">叫貨管理</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <table class="pageTable fs-6 fw-normal text-center">
+                        <tr class="buyTable">
+                        </tr>
+
+                        <tr></tr>
+                        <tr></tr>
+                        <tr></tr>
+                    </table>
+
+                </div>
+
+
+
+                <div class="pageTable3 bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="fs-5 d-inline-flex mb-4 contenttitle">緊急接單清單</p>
+                        </div>
+                        <div>
+                            <button class="mdc-button mdc-button--outlined" onclick="callParent(2)">
+                                <span class="mdc-button__ripple"></span>
+                                <span class="mdc-button__label fs-6 fw-normal">接單管理</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <table class="pageTable fs-6 fw-normal text-center">
+                        <tr class="sellTable">
+                        </tr>
+
+                        <tr></tr>
+                        <tr></tr>
+                        <tr></tr>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/javascript/materialdesigninit.js"></script>
+    <script src="/javascript/ajaxconnect.js"></script>
+
+    <script src="/javascript/orderstatus.js"></script>
+
+    <script>
+        // 更新標題名稱----------------------------------------------------------------------------------------------------------------------------
+        usercompanyname = JSON.parse(localStorage.getItem("accountBean")).companyname;
+        if (usercompanyname != null || usercompanyname != "" || usercompanyname != undefined) {
+            $("h1 span")[0].innerHTML = `${usercompanyname}，歡迎回到管理介面！`;
+        }
+
+
+        // 呼叫父類別方法------------------------------------------------------------------------------------------------------------------
+        function callParent(transferData) {
+            if (window.parent && window.parent.changepage) {
+                let href = '';
+
+                // 0：庫存概況、1：叫貨管理、2：接單管理、3：新增庫存
+                switch (transferData) {
+                    case 0:
+                        href = "http://localhost:8080/views/orderStock.html";
+                        break;
+                    case 1:
+                        href = "http://localhost:8080/views/orderBuy.html";
+                        break;
+                    case 2:
+                        href = "http://localhost:8080/views/orderSell.html";
+                        break;
+                    default:
+                        console.log("href error");
+                        break;
+                }
+
+                window.parent.changepage(href);	//呼叫父頁面的SetComponent方法
+
+            }
+        }
+
+
+
+
+        // JSON假資料  ----------------------------------------------------------------------------------------------------------------------
+        // 緊急庫存清單：ProductNameSpec(品名規格)、?StockOwn(可出現貨)、?CallShipping(已叫現貨)、SaveQty(安全庫存)
+        // 叫貨清單：OrderId(叫貨編號)、CompanyName(供應商)、OrderStatus(完成階段)、OrderStatus(當前狀態)
+        // 接單清單：OrderId(接單編號)、CompanyName(採購商)、OrderStatus(完成階段)、OrderStatus(當前狀態)
+
+        let allPageList = [
+            {
+                pageList: [
+                    {
+                        productnamespec: "虱目魚/1斤",
+                        stockown: 25,
+                        warningqty: 30,
+                        callshipping: 50,
+                        saveqty: 75
+                    },
+                    {
+                        productnamespec: "黃鍚鯛/1斤",
+                        stockown: 0,
+                        warningqty: 10,
+                        callshipping: 30,
+                        saveqty: 30
+                    },
+                    {
+                        productnamespec: "狗母/1箱",
+                        stockown: -10,
+                        warningqty: 5,
+                        callshipping: 0,
+                        saveqty: 30
+                    },
+                    {
+                        productnamespec: "(fake)黃鍚鯛/1斤",
+                        stockown: 0,
+                        warningqty: 10,
+                        callshipping: 30,
+                        saveqty: 30
+                    },
+                    {
+                        productnamespec: "(fake)狗母/1箱",
+                        stockown: -10,
+                        warningqty: 5,
+                        callshipping: 0,
+                        saveqty: 30
+                    }
+                ]
+            },
+            {
+                pageBuyList: [
+                    {
+                        orderid: "#22098867185",
+                        companyname: "恬心實業有限公司",
+                        orderstatus: 3,
+                        statustime: "2022-09-22 13:14:17"
+                    },
+                    {
+                        orderid: "#22094572193",
+                        companyname: "壽豐商行",
+                        orderstatus: 5,
+                        statustime: "2022-08-01 06:04:07"
+                    },
+                    {
+                        orderid: "#22097184939",
+                        companyname: "蛟龍企業有限公司",
+                        orderstatus: 4,
+                        statustime: "2022-09-30 22:14:17"
+                    },
+                    {
+                        orderid: "#22097184939",
+                        companyname: "(fake)蛟龍企業有限公司",
+                        orderstatus: 2,
+                        statustime: "2022-09-22 13:14:17"
+                    }
+                ]
+            },
+            {
+                pageSellList: [
+                    {
+                        orderid: "#22098867185",
+                        companyname: "達克三角洲有限公司",
+                        orderstatus: 2,
+                        statustime: "2022-09-22 13:14:17"
+                    },
+                    {
+                        orderid: "#22094572193",
+                        companyname: "熱帶山姆集團",
+                        orderstatus: 5,
+                        statustime: "2022-09-22 13:14:17"
+                    },
+                    {
+                        orderid: "#22097184939",
+                        companyname: "傑克聯邦股份有限公司",
+                        orderstatus: 4,
+                        statustime: "2022-09-22 13:14:17"
+                    },
+                    {
+                        orderid: "#22098867185",
+                        companyname: "(fake)達克三角洲有限公司",
+                        orderstatus: 2,
+                        statustime: "2022-09-22 13:14:17"
+                    },
+                    {
+                        orderid: "#22094572193",
+                        companyname: "(fake)熱帶山姆集團",
+                        orderstatus: 5,
+                        statustime: "2022-09-22 13:14:17"
+                    },
+                    {
+                        orderid: "#22097184939",
+                        companyname: "(fake)傑克聯邦股份有限公司",
+                        orderstatus: 4,
+                        statustime: "2022-09-22 13:14:17"
+                    }
+                ]
+            }
+        ]
+
+
+
+        // 欄位中文名稱對應------------------------------
+        //緊急庫存清單
+        let pageListName = [
+            {
+                ProductNameSpec: "品名規格",
+                StockOwn: "可出現貨",
+                warningqty: "警示庫存",
+                CallShipping: "已叫現貨",
+                SaveQty: "安全庫存"
+            }
+        ]
+
+        //叫貨清單
+        let pageBuyListName = [
+            {
+                OrderId: "叫貨編號",
+                CompanyName: "供應商",
+                OrderStatus: "當前狀態",
+                overtime:"逾時"
+            }
+        ]
+
+        //接單清單
+        let pageSellListName = [
+            {
+                OrderId: "接單編號",
+                CompanyName: "供應商",
+                OrderStatus: "當前狀態",
+                overtime:"逾時"
+            }
+        ]
+
+
+
+
+        // 撈資料(使用非同步資料的方式撈)。
+        downloadData();
+        async function downloadData() {
+
+            // 與Server對接的ajax。
+            // 邊撈同時進行後續動作。
+            returnObj = await viewspage(null);
+
+
+            if (returnObj.responseStatus != 200) {
+                // 撈完後解析假資料並更新畫面內容。
+                reNewData();
+                // 沒接到資料
+                console.log("page getServerData error:" + "(returnObj.responseStatus)" + returnObj.responseStatus);
+                console.log(returnObj.responseObj);
+            } else {
+                // 處理及判斷邏輯：                
+                allPageList = returnObj.responseObj;
+                console.log(allPageList);
+                // 撈完後解析假資料並更新畫面內容。
+                reNewData();
+            }
+
+        }
+
+
+        function reNewData() {
+            let pageDataNum = 3;  //每頁最多5筆資料。
+
+            // 最上方代辦數量欄位
+            $(".pageTodoTable p")[0].innerHTML = allPageList[0].pageList.length;
+            $(".pageTodoTable p")[1].innerHTML = allPageList[1].pageBuyList.length;
+            $(".pageTodoTable p")[2].innerHTML = allPageList[2].pageSellList.length;
+
+
+            // 標題欄位
+            $(".pageTable1 tr")[0].innerHTML = `
+            <th>${pageListName[0].ProductNameSpec}</th>
+            <th>${pageListName[0].StockOwn}</th>
+            <th>${pageListName[0].warningqty}</th>
+            <th>${pageListName[0].CallShipping}</th>
+            <th>${pageListName[0].SaveQty}</th>`;
+            // <th>操作</th>
+
+            $(".pageTable2 tr")[0].innerHTML = `
+            <th>${pageBuyListName[0].OrderId}</th>
+            <th>${pageBuyListName[0].CompanyName}</th>
+            <th colspan="2">${pageBuyListName[0].OrderStatus}</th>
+            <th>${pageBuyListName[0].overtime}</th>`;
+            // <th>操作</th>
+
+            $(".pageTable3 tr")[0].innerHTML = `
+            <th>${pageSellListName[0].OrderId}</th>
+            <th>${pageSellListName[0].CompanyName}</th>
+            <th colspan="2">${pageSellListName[0].OrderStatus}</th>
+            <th>${pageSellListName[0].overtime}</th>`;
+            // <th>操作</th>
+
+
+            for (let i = 1; i <= pageDataNum; i++) {
+
+                // 清空Table，把除了<th>內部<tr>之外的所有<tr>清空。
+                $(".pageTable1 tr")[i].innerHTML = "";
+
+
+                // 創造<tr>的Html格式，並將資料帶入。
+                let trHtmlData =
+                    `<td>${allPageList[0].pageList[i - 1].productnamespec}</td>
+                    <td><span class="${allPageList[0].pageList[i - 1].stockown <= 0 ? 'dangerTd' : 'warningTd'}">${allPageList[0].pageList[i - 1].stockown}</span></td>
+                    <td>${allPageList[0].pageList[i - 1].warningqty}</td>
+                    <td>${allPageList[0].pageList[i - 1].callshipping}</td>
+                    <td>${allPageList[0].pageList[i - 1].saveqty}</td>`
+                // <td>
+                //     <button class="mdc-button">
+                //         <span class="mdc-button__ripple"></span>
+                //         <span class="mdc-button__label fs-6 fw-normal">略過</span>
+                //     </button>
+                // </td>
+
+                // 把製作完的tr放回去tabel中。
+                $(".pageTable1 tr")[i].innerHTML = trHtmlData;
+
+
+
+
+                // 判斷交易狀態（叫貨）-------------------------
+                $(".pageTable2 tr")[i].innerHTML = "";
+
+                // 當前狀態
+                let returnbuystatus = checkstatus(0, allPageList[1].pageBuyList[i - 1].orderstatus);
+
+                // 創造<tr>的Html格式，並將資料帶入。
+                let trHtmlData2 =
+                    `<td>${allPageList[1].pageBuyList[i - 1].orderid}</td>
+                            <td>${allPageList[1].pageBuyList[i - 1].companyname}</td>
+                            <td colspan="2">
+                                <div id="timeline" class="pe-4">
+                                    <ol>
+                                        <li class="active">
+                                            <span class="point d-block"></span>
+                                            <span class="diplome d-block">${returnbuystatus.prev}</span>
+                                            <span class="timestamp d-block">${allPageList[1].pageBuyList[i - 1].statustime}</span>
+                                        </li>
+                                        <li class="point">
+                                            <span class="point d-block"></span>
+                                            <span class="diplome d-block">${returnbuystatus.now}</span>
+                                            <span class="timestamp d-block">${timeCounter(allPageList[1].pageBuyList[i - 1].statustime)}</span>
+                                        </li>
+
+                                    </ol>
+                                </div>
+                            </td>
+                            <td class="buyOverTime"></td>`
+                // <td>
+                //     <button class="mdc-button">
+                //         <span class="mdc-button__ripple"></span>
+                //         <span class="mdc-button__label fs-6 fw-normal">略過</span>
+                //     </button>
+                // </td>
+                
+
+                // 把製作完的tr放回去table中。
+                $(".pageTable2 tr")[i].innerHTML = trHtmlData2;
+
+
+
+                // 判斷交易狀態（接單）-------------------------
+                // 當前狀態
+
+                let returnsellstatus = checkstatus(1, allPageList[2].pageSellList[i - 1].orderstatus);
+
+                // 創造<tr>的Html格式，並將資料帶入。
+                let trHtmlData3 =
+                    `<td>${allPageList[2].pageSellList[i - 1].orderid}</td>
+                            <td>${allPageList[2].pageSellList[i - 1].companyname}</td>
+                            <td colspan="2">
+                                <div id="timeline" class="pe-4">
+                                    <ol>
+                                        <li class="active">
+                                            <span class="point d-block"></span>
+                                            <span class="diplome d-block">${returnsellstatus.prev}</span>
+                                            <span class="timestamp d-block">${allPageList[2].pageSellList[i - 1].statustime}</span>
+                                        </li>
+                                        <li class="point">
+                                            <span class="point d-block"></span>
+                                            <span class="diplome d-block">${returnsellstatus.now}</span>
+                                            <span class="timestamp d-block">${timeCounter(allPageList[2].pageSellList[i - 1].statustime)}</span>                                            
+                                        </li>
+
+                                    </ol>
+                                </div>
+                            </td>                            
+                            <td class="sellOverTime"></td>`
+                // <td>
+                //     <button class="mdc-button">
+                //         <span class="mdc-button__ripple"></span>
+                //         <span class="mdc-button__label fs-6 fw-normal">略過</span>
+                //     </button>
+                // </td>
+
+                // 把製作完的tr放回去table中。
+                $(".pageTable3 tr")[i].innerHTML = trHtmlData3;
+                
+              	//緊急叫貨清單逾時
+              	var dateBuy = new Date(`${timeCounter(allPageList[1].pageBuyList[i - 1].statustime)}`);// 過去時間
+                
+                var dateNow = new Date();//現在時間
+
+                var sOne = dateBuy.getTime(), sTwo = dateNow.getTime();
+                var totalBuy = (sTwo - sOne) / 1000;
+
+                var dayBuy = parseInt(totalBuy / (24 * 60 * 60)); // 天數
+                var afterDayBuy = totalBuy - dayBuy * 24 * 60 * 60; // 取得算出天數的剩餘秒數
+                var hourBuy = parseInt(afterDayBuy / (60 * 60)); // 小時
+                
+                for (let i = 1; i <= pageDataNum; i++){
+                	
+                }
+                $(".buyOverTime")[i-1].innerHTML = (dayBuy + '天' + hourBuy + '時');
+                
+
+                //緊急接單清單逾時
+                var dateSell = new Date(`${timeCounter(allPageList[2].pageSellList[i - 1].statustime)}`);// 過去時間
+                
+                var dateNow2 = new Date();//現在時間
+
+                var s1 = dateSell.getTime(), s2 = dateNow2.getTime();
+                var totalSell = (s2 - s1) / 1000;
+
+                var daySell = parseInt(totalSell / (24 * 60 * 60)); // 天數
+                var afterDaySell = totalSell - daySell * 24 * 60 * 60; // 取得算出天數的剩餘秒數
+                var hourSell = parseInt(afterDaySell / (60 * 60)); // 小時
+                
+                $(".sellOverTime")[i-1].innerHTML = (daySell + '天' + hourSell + '時');
+                
+                
+            }
+
+        }
+
+
+    </script>
+    
+    <script>
+        
+        
+
+        
+        
+    </script>
+
+
+</body>
+
+</html>

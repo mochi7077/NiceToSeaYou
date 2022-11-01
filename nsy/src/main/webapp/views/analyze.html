@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagecontent</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+    <!-- ICON CSS -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+    <!-- globalstyle -->
+    <link rel="stylesheet" href="../css/globalstyle.css">
+    <!-- globalattributes -->
+    <link rel="stylesheet" href="../css/globalattributes.css">
+
+    <!-- 複數頁面使用CSS效果 -->
+    <link rel="stylesheet" href="/css/pluralpagestyle.css">
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <!-- border border-primary  -->
+            <div class="col-11 mt-4 px-0">
+
+                <h1 class="fs-2 fw-bolder mb-4"><span class="text-black">數據分析</span></h1>
+
+                <div class="bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 圓餅圖 -->
+                    <canvas id="nsyPie" style="width:100%;max-width:450px; float: left;"></canvas>
+
+                    <!-- 橫長條圖 -->
+                    <canvas id="nsyHorizontal" style="width:100%;max-width:450px"></canvas>
+
+                    <br><br>
+
+                    <!-- 折線圖 -->
+                    <!-- <canvas id="nsyLine" style="width:100%;height: 50%;"></canvas> -->
+
+                    <!-- 混合線圖 -->
+                    <canvas id="msyMultiple" style="width:100%;height: 280px;"></canvas>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+
+
+
+    <!-- 圓餅圖 -->
+    <script>
+        var xValues = ["海魚", "蝦類", "蟹類", "貝類", "其他"];
+        var yValues = [55, 49, 44, 24, 15];
+        var barColors = [
+            '#FB6D1D',
+            "#FBA01D",
+            "#FACF83",
+            "#DE8E1B",
+            "#FD7E14"
+        ];
+
+        new Chart("nsyPie", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "2022 9月 產品銷售"
+                }
+            }
+        });
+    </script>
+
+
+    <!-- 橫長條圖 -->
+    <script>
+        var xValues = ["千美生鮮", "聖祿食品", "國亨企業社", "傑克聯邦", "達克生鮮"];
+        var yValues = [55, 49, 44, 24, 15];
+        var barColors = ['#FB6D1D',
+            "#FBA01D",
+            "#FACF83",
+            "#DE8E1B",
+            "#FD7E14"];
+
+        new Chart("nsyHorizontal", {
+            type: "horizontalBar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "2022 9月 供應商進貨總額"
+                },
+                scales: {
+                    xAxes: [{ ticks: { min: 10, max: 60 } }]
+                }
+            }
+        });
+    </script>
+
+    <!-- 折線圖 -->
+    <!-- <script>
+        var xValues = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
+        var yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+
+        new Chart("nsyLine", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{ ticks: { min: 6, max: 16 } }],
+                }
+            }
+        });
+    </script> -->
+
+    <script>
+        var xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+        new Chart("msyMultiple", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+                    borderColor: "#FB6D1D",
+                    fill: false
+                }, {
+                    data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+                    borderColor: "#FD7E14",
+                    fill: false
+                }, {
+                    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+                    borderColor: "#FBA01D",
+                    fill: false
+                }]
+            },
+            options: {
+                legend: { display: false }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+</body>
+
+</html>

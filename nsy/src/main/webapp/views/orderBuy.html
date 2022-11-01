@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagecontent</title>
+
+    <!-- Material Design -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+    <!-- ICON CSS -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+    <!-- globalstyle -->
+    <link rel="stylesheet" href="../css/globalstyle.css">
+    <!-- globalattributes -->
+    <link rel="stylesheet" href="../css/globalattributes.css">
+
+    <!-- 複數頁面使用CSS效果 -->
+    <link rel="stylesheet" href="/css/pluralpagestyle.css">
+
+    <style>
+        /* 建立叫貨單按鈕------------ */
+        .buySet {
+            float: right;
+        }
+
+
+        /* 表格 --------------------------------------------------------- */
+
+        .orderBuytable {
+            table-layout: fixed;
+            text-align: center;
+
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 0.3rem;
+            border: 1px solid var(--color-border);
+        }
+
+        .orderBuytable th {
+            height: var(--table-thheight);
+
+            color: var(--color-secfont);
+            font-weight: var(--font-weight-contenttitle);
+            background-color: var(--color-sectablefirst);
+        }
+
+        .orderBuytable td {
+            /* height: var(--table-tdheight); */
+            padding-top: 18px;
+            padding-bottom: 18px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .orderBuytable tr:nth-child(2n+2) td {
+            /* background-color: red; */
+            padding-top: 0px;
+            padding-bottom: 0px;
+            border: none;
+        }
+
+        #failContent {
+            background-color: var(--color-antiquewhite);
+            text-align: left;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        /* .orderBuytable tr:nth-child(2n+2) {} */
+
+        /* 子table外的容器 */
+        .childTableHidden {
+            height: 0px;
+            overflow: hidden;
+
+            transition-duration: .35s;
+            transition-timing-function: ease;
+            /* background-color:red;  */
+        }
+
+        /*  */
+
+
+        .childTableHidden table {
+            /* display: none; */
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 25px;
+            font-size: 10px;
+            border: 2px solid var(--color-black);
+            background-color: var(--color-whitesmoke);
+            width: 90%;
+        }
+
+        .detailTh {
+            height: 30px;
+            font-size: 12px;
+            border: 2px solid var(--color-black);
+            background-color: var(--color-jasmine);
+        }
+
+        .detailBtn {
+            color: var(--color-black);
+            background-color: transparent;
+            border-color: var(--color-black);
+            background-color: var(--color-jasmine);
+            border-radius: 3px;
+            padding-right: 2%;
+            padding-left: 2%;
+
+        }
+
+        .deleteBtn {
+            color: var(--color-black);
+            background-color: transparent;
+            border-color: var(--color-black);
+            border-radius: 3px;
+            padding-right: 2%;
+            padding-left: 2%;
+
+        }
+
+        /* 時間軸------------------------------------------------ */
+
+        #timeline ol {
+            position: relative;
+            display: block;
+            margin-top: 50px;
+            margin-bottom: 100px;
+            height: 1px;
+            padding-inline-start: 0;
+        }
+
+        /* 線 */
+        #timeline li {
+            position: relative;
+            display: inline-block;
+            float: left;
+            width: calc(100% / 5);
+            height: 2px;
+            background: #FA8072;
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        #timeline li .diplome {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #timeline li .point {
+            content: "";
+            display: block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid #FF4500;
+            background: #fff;
+            position: absolute;
+            top: -8px;
+            left: calc(50% - 8px);
+        }
+
+        #timeline li .timestamp {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* 圓點顏色 */
+        #timeline li.active>.point {
+            border: 8px solid #FF4500;
+        }
+
+        /* 狀態、時間顏色 */
+        #timeline li.active>.diplome,
+        #timeline li.active>.timestamp {
+            color: #FA8072;
+        }
+
+
+        /* RWD---------------------------------------- */
+
+        @media screen and (max-width: 1000px) {
+            table {
+                border: 0;
+            }
+
+            table thead {
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            table tr {
+                border-bottom: 3px solid var(--color-antiquewhite);
+                display: block;
+                font-size: 16px;
+            }
+
+            table td {
+                border-bottom: 1px solid var(--color-antiquewhite);
+                display: block;
+                text-align: right;
+
+            }
+
+            table td::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: var(--color-sunorange);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-11 mt-4 px-0">
+
+                <!-- 分頁大標 -->
+                <h1 class="fs-2 fw-bold mb-4"><span class="text-black">叫貨管理</span>
+                    <button class="buySet mt-2 mdc-button mdc-button--raised" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        <span class="mdc-button__label fs-6 fw-normal">建立叫貨單</span>
+                    </button>
+                </h1>
+
+
+                <div class="bg-white rounded-3 shadow-sm py-4 px-4 w-100 h-auto mb-4">
+
+                    <!-- 這裡是內容的框架，可直接改掉框架 -->
+
+                    <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                        <a class="opA active">全部</a>
+                        <a class="opA">待確認</a>
+                        <a class="opA">待出貨</a>
+                        <a class="opA">待收貨</a>
+                        <a class="opA">完成</a>
+                        <a class="opA">不成立</a>
+                    </div>
+
+                    <div class="borderLine"></div>
+
+                    <hr class="hr-color mt-0 mb-4">
+
+                    <table class="orderBuytable fs-6 fw-normal mb-4">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">叫貨編號</th>
+                                <th style="width: 15%;">供應商</th>
+                                <th style="width: 10%;">叫貨時間</th>
+                                <th style="width: 10%;">交易狀態</th>
+                                <th style="width: 10%;">總價</th>
+                                <th style="width: 10%;">付款方式</th>
+                                <th style="width: 15%;">操作</th>
+                            </tr>
+                        </thead>
+
+                        <!-- 項目內容 -->
+
+                        <tr class="hiddenRowControll">
+                            <!-- <td data-label="叫貨編號">#22090793950</td>
+                            <td data-label="供應商">恬心實業有限公司</td>
+                            <td data-label="叫貨時間">送出叫貨單<br>將自動新增時間</td>
+                            <td data-label="交易狀態">尚未送出叫貨單</td>
+                            <td data-label="總價">5960</td>
+                            <td data-label="付款方式">銀行轉帳<br>月結(Net30)</td>
+                            <td data-label="操作">
+                                <button class="orderBtn mdc-button mdc-button--raised mb-2">
+                                    <span class="mdc-button__label fs-6 fw-normal">送出叫貨單</span>
+                                </button><br>
+                                <button class="orderBtnDel mdc-button mdc-button--outlined mb-2">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">刪除叫貨單</span>
+                                </button><br>
+                                <button class="detail mdc-button">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">查看明細</span>
+                                </button>
+                            </td> -->
+                        </tr>
+
+                        <tr class="childRow">
+                            <!-- <td colspan="7">
+                                <div class="childTableHidden">
+                                    <div id="failContent" class="rounded-3 shadow-sm py-4 px-4 h-auto mb-4">
+
+                                        <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                                            <h5>尚未送出叫貨單</h5>
+                                        </div>
+                                    </div>
+
+
+                                    <table id="orderTr1">
+                                        <thead>
+                                            <tr class="detailTh">
+                                                <th style="width: 20%;">品名規格</th>
+                                                <th style="width: 15%;">叫貨數量</th>
+                                                <th style="width: 15%;">到貨數量</th>
+                                                <th style="width: 15%;">成本單價</th>
+                                                <th style="width: 15%;">總價</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td data-label="品名規格">生鮮熟食干貝/禮盒裝</td>
+                                            <td data-label="叫貨數量">10</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">500</td>
+                                            <td data-label="總價">5000</td>
+                                            <td data-label="操作">
+                                                <button class="detailBtn">編輯</button>
+                                                <button class="deleteBtn">刪除</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="品名規格">牛奶貝/1斤</td>
+                                            <td data-label="叫貨數量">96</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">10</td>
+                                            <td data-label="總價">960</td>
+                                            <td data-label="操作">
+                                                <button class="detailBtn">編輯</button>
+                                                <button class="deleteBtn">刪除</button>
+                                            </td>
+                                        </tr>
+
+
+
+                                    </table>
+                                </div>
+                            </td> -->
+                        </tr>
+
+
+                        <!-- ---------------------------------- -->
+
+
+                        <tr class="hiddenRowControll">
+                            <!-- <td data-label="叫貨編號">#22098857193</td>
+                            <td data-label="供應商">壽豐商行</td>
+                            <td data-label="叫貨時間">2022-09-11 11:17:18</td>
+                            <td data-label="交易狀態">待確認</td>
+                            <td data-label="總價">6260</td>
+                            <td data-label="付款方式">銀行轉帳<br>月結(Net30)</td>
+                            <td data-label="操作">
+                                <button class="orderBtnDel mdc-button mdc-button--outlined mb-2">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">刪除叫貨單</span>
+                                </button><br>
+                                <button class="detail mdc-button">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">查看明細</span>
+                                </button>
+                            </td> -->
+                        </tr>
+                        <tr class="childRow">
+                            <!-- <td colspan="7">
+                                <div class="childTableHidden">
+                                    <table id="orderTr1">
+                                        <thead>
+                                            <tr class="detailTh">
+                                                <th style="width: 20%;">品名規格</th>
+                                                <th style="width: 15%;">叫貨數量</th>
+                                                <th style="width: 15%;">到貨數量</th>
+                                                <th style="width: 15%;">成本單價</th>
+                                                <th style="width: 15%;">總價</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td data-label="品名規格">生鮮熟食干貝/禮盒裝</td>
+                                            <td data-label="叫貨數量">10</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">500</td>
+                                            <td data-label="總價">5000</td>
+                                            <td data-label="操作">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="品名規格">牛奶貝/1斤</td>
+                                            <td data-label="叫貨數量">96</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">10</td>
+                                            <td data-label="總價">960</td>
+                                            <td data-label="操作">
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="6">
+                                                <div id="timeline">
+                                                    <ol>
+                                                        <li class="active">
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">待供應商確認</h6>
+                                                            <p class="timestamp">09/23 12:51</p>
+                                                        </li>
+                                                        <li class="point">
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">待供應商出貨</h6>
+                                                            <p class="timestamp"></p>
+                                                        </li>
+                                                        <li>
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">供應商出貨中</h6>
+                                                        </li>
+                                                        <li>
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">我方已收貨</h6>
+                                                        </li>
+                                                        <li>
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">我方完成訂單</h6>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                    </table>
+                                </div>
+                            </td> -->
+                        </tr>
+
+
+                        <!-- ---------------------------- -->
+
+
+                        <tr class="hiddenRowControll">
+                            <!-- <td data-label="叫貨編號">#22090095710</td>
+                            <td data-label="供應商">蛟龍企業有限公司</td>
+                            <td data-label="叫貨時間">2022-09-10 18:29:09</td>
+                            <td data-label="交易狀態">待出貨</td>
+                            <td data-label="總價">19320</td>
+                            <td data-label="付款方式">銀行轉帳<br>月結(OA30)</td>
+                            <td data-label="操作">
+                                <button class="orderBtnDel mdc-button mdc-button--outlined mb-2">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">刪除叫貨單</span>
+                                </button><br>
+                                <button class="detail mdc-button">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">查看明細</span>
+                                </button>
+                            </td> -->
+                        </tr>
+                        <tr class="childRow">
+                            <!-- <td colspan="7">
+                                <div class="childTableHidden">
+                                    <table id="orderTr1">
+                                        <thead>
+                                            <tr class="detailTh">
+                                                <th style="width: 20%;">品名規格</th>
+                                                <th style="width: 15%;">叫貨數量</th>
+                                                <th style="width: 15%;">到貨數量</th>
+                                                <th style="width: 15%;">成本單價</th>
+                                                <th style="width: 15%;">總價</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td data-label="品名規格">生鮮熟食干貝/禮盒裝</td>
+                                            <td data-label="叫貨數量">10</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">500</td>
+                                            <td data-label="總價">5000</td>
+                                            <td data-label="操作">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="品名規格">牛奶貝/1斤</td>
+                                            <td data-label="叫貨數量">96</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">10</td>
+                                            <td data-label="總價">960</td>
+                                            <td data-label="操作">
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="6">
+                                                <div id="timeline">
+                                                    <ol>
+                                                        <li class="active">
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">待供應商確認</h6>
+                                                            <p class="timestamp">09/23 12:51</p>
+                                                        </li>
+                                                        <li class="active">
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">待供應商出貨</h6>
+                                                            <p class="timestamp">09/23 14:17</p>
+                                                        </li>
+                                                        <li>
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">供應商出貨中</h6>
+                                                        </li>
+                                                        <li>
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">我方已收貨</h6>
+                                                        </li>
+                                                        <li>
+                                                            <span class="point"></span>
+                                                            <h6 class="diplome">我方完成訂單</h6>
+                                                        </li>
+                                                    </ol>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td> -->
+                        </tr>
+
+                        <!-- ---------------------------- -->
+
+                        <tr class="hiddenRowControll">
+                            <!-- <td data-label="叫貨編號">#22098577951</td>
+                            <td data-label="供應商">德昌股份有限公司</td>
+                            <td data-label="叫貨時間">2022-09-10 15:27:41</td>
+                            <td data-label="交易狀態">不成立</td>
+                            <td data-label="總價">8170</td>
+                            <td data-label="付款方式">銀行轉帳<br>月結(OA30)</td>
+                            <td data-label="操作">
+                                <button class="detail mdc-button">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">查看明細</span>
+                                </button>
+                            </td> -->
+                        </tr>
+                        <tr class="childRow">
+                            <!-- <td colspan="7">
+                                <div class="childTableHidden">
+                                    <div id="failContent" class="rounded-3 shadow-sm py-4 px-4 h-auto mb-4">
+
+                                        <div class="h-auto d-flex justify-content-start fs-6 fw-normal">
+                                            <h5>訂單狀態：不成立</h5>
+                                        </div>
+                                        <ul>
+                                            <li>不成立類型：系統判定不成立</li>
+                                            <li>原因：逾時已由系統判定不成立</li>
+                                        </ul>
+                                    </div>
+
+                                    <table id="orderTr1">
+                                        <thead>
+                                            <tr class="detailTh">
+                                                <th style="width: 20%;">品名規格</th>
+                                                <th style="width: 15%;">叫貨數量</th>
+                                                <th style="width: 15%;">到貨數量</th>
+                                                <th style="width: 15%;">成本單價</th>
+                                                <th style="width: 15%;">總價</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td data-label="品名規格">生鮮熟食干貝/禮盒裝</td>
+                                            <td data-label="叫貨數量">10</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">500</td>
+                                            <td data-label="總價">5000</td>
+                                            <td data-label="操作">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="品名規格">牛奶貝/1斤</td>
+                                            <td data-label="叫貨數量">96</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">10</td>
+                                            <td data-label="總價">960</td>
+                                            <td data-label="操作">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <br>
+
+
+                                </div>
+                            </td> -->
+                        </tr>
+
+                        <!-- ---------------------------- -->
+
+                        <tr class="hiddenRowControll">
+                            <!-- <td data-label="叫貨編號">#22093629919</td>
+                            <td data-label="供應商">金德欣股份有限公司</td>
+                            <td data-label="叫貨時間">2022-09-09 11:35:09</td>
+                            <td data-label="交易狀態">待收貨</td>
+                            <td data-label="總價">16770</td>
+                            <td data-label="付款方式">銀行轉帳<br>月結(TT30)</td>
+                            <td data-label="操作">
+                                <button class="orderBtn mdc-button mdc-button--raised mb-2">
+                                    <span class="mdc-button__label fs-6 fw-normal">已確認入庫</span>
+                                </button><br>
+                                <button class="orderBtnDel mdc-button mdc-button--outlined mb-2">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">取消叫貨單</span>
+                                </button><br>
+                                <button class="detail mdc-button">
+                                    <span class="mdc-button__ripple"></span>
+                                    <span class="mdc-button__label fs-6 fw-normal">查看明細</span>
+                                </button>
+                            </td> -->
+                        </tr>
+                        <tr class="childRow">
+                            <!-- <td colspan="7">
+                                <div class="childTableHidden">
+                                    <table id="orderTr1">
+                                        <thead>
+                                            <tr class="detailTh">
+                                                <th style="width: 20%;">品名規格</th>
+                                                <th style="width: 15%;">叫貨數量</th>
+                                                <th style="width: 15%;">到貨數量</th>
+                                                <th style="width: 15%;">成本單價</th>
+                                                <th style="width: 15%;">總價</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td data-label="品名規格">生鮮熟食干貝/禮盒裝</td>
+                                            <td data-label="叫貨數量">10</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">500</td>
+                                            <td data-label="總價">5000</td>
+                                            <td data-label="操作">
+                                                <button class="detailBtn">全到</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td data-label="品名規格">牛奶貝/1斤</td>
+                                            <td data-label="叫貨數量">96</td>
+                                            <td data-label="到貨數量">0</td>
+                                            <td data-label="成本單價">10</td>
+                                            <td data-label="總價">960</td>
+                                            <td data-label="操作">
+                                                <button class="detailBtn">全到</button>
+                                            </td> -->
+                        </tr>
+                    </table>
+                </div>
+                </td>
+                </tr>
+
+                </table>
+
+                <div class="pagination">
+                    <a href="#">&laquo;</a>
+                    <a class="active" href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">&raquo;</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
+    <!-- 購買彈窗 -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">商品清單</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="height: 700px;">
+                    <iframe id="ifrm" style="width: 100%; flex: 1; height: 700px;" src="./goods.html"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/javascript/materialdesigninit.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.pack.js"></script>
+
+
+    <!-- 上方選單移動與選擇 -->
+    <script>
+        // 最上方按鈕點擊時，按鈕狀態改變，下方底線移動。
+        $(".opA").on("click", function () {
+            $(".opA").removeClass('active');
+            $(this).addClass('active');
+
+            switch ($(this).index()) {
+                case 0:
+                    $(".borderLine").css({ "transform": "translateX(0px)", "width": "70px" });
+                    $(".hiddenRowControll").show();
+                    break;
+                case 1:
+                    $(".borderLine").css({ "transform": "translateX(70px)", "width": "90px" });
+                    $(".hiddenRowControll").hide();
+                    $(".hiddenRowControll:nth-child(3)").show();
+                    break;
+                case 2:
+                    $(".borderLine").css({ "transform": "translateX(158px)", "width": "90px" });
+                    $(".hiddenRowControll").hide();
+                    $(".hiddenRowControll:nth-child(5)").show();
+                    break;
+                case 3:
+                    $(".borderLine").css({ "transform": "translateX(245px)", "width": "90px" });
+                    $(".hiddenRowControll").hide();
+                    $(".hiddenRowControll:nth-child(7)").show();
+                    $(".hiddenRowControll:nth-child(9)").show();
+                    break;
+                case 4:
+                    $(".borderLine").css({ "transform": "translateX(338px)", "width": "70px" });
+                    $(".hiddenRowControll").hide();
+                    break;
+                case 5:
+                    $(".borderLine").css({ "transform": "translateX(408px)", "width": "90px" });
+                    $(".hiddenRowControll").hide();
+                    break;
+                default:
+                    console.log("borderLine狀態錯誤");
+                    break;
+            }
+
+        })
+
+        // 目前分頁按鈕位置，初始化為最左邊1。-------------------------------------------------------------------------------------------------
+
+        let nowPageNum = 1;
+        // 最下方分頁鈕點擊時，按鈕狀態改變。
+        $(".pagination a").on("click", function () {
+            if ($(this).index() != 0 && $(this).index() != 6) {
+                $(".pagination a").removeClass('active');
+                $(this).addClass('active');
+                nowPageNum = $(this).index();
+
+                // 變換表格內容。
+
+            } else if ($(this).index() == 0) {
+
+                // 如果最左邊的第一個數字是1，就不會更新頁籤。
+                if ($(".pagination a")[1].innerHTML != 1) {
+
+                    // 更新頁籤碼，所有頁籤碼-1
+                    for (var i = 1; i <= 5; i++) {
+                        let pageNum = parseInt($(".pagination a")[i].innerHTML);
+                        $(".pagination a")[i].innerHTML = pageNum - 1;
+                    }
+
+                    // 更新active位置。
+                    // 如果active位置在5，則不移動。
+                    // 非5時，向右移動一格。
+                    if (nowPageNum != 5) {
+                        $(".pagination a").removeClass('active');
+                        $(".pagination a")[nowPageNum + 1].classList.add('active');
+                        nowPageNum += 1;
+
+                    } else {
+                        $(".pagination a").removeClass('active');
+                        $(".pagination a")[nowPageNum].classList.add('active');
+                        nowPageNum = 5;
+                    }
+
+                }
+
+            } else {
+
+                // 更新頁籤碼，所有頁籤碼+1
+                for (var i = 1; i <= 5; i++) {
+                    let pageNum = parseInt($(".pagination a")[i].innerHTML);
+                    $(".pagination a")[i].innerHTML = pageNum + 1;
+                }
+
+                // 更新active位置。
+                // 如果active位置在1，則不移動。
+                // 非1時，向左移動一格。
+                if (nowPageNum != 1) {
+                    $(".pagination a").removeClass('active');
+                    $(".pagination a")[nowPageNum - 1].classList.add('active');
+                    nowPageNum -= 1;
+
+                } else {
+                    $(".pagination a").removeClass('active');
+                    $(".pagination a")[nowPageNum].classList.add('active');
+                    nowPageNum = 1;
+                }
+
+            }
+        })
+
+        //----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    </script>
+
+    <!-- 測試外部呼叫內部：建立叫貨單 -->
+    <script>
+        function SetComponent() {
+            $("#staticBackdrop").modal("hide");
+            Swal.fire(
+                '已建立叫貨單',
+                '可至叫貨管理頁面查看最新狀態',
+                'success'
+            )
+        }
+    </script>
+
+    <script>
+        // JSON假資料  ----------------------------------------------------------------------------------------------------------------------
+        // OrderId(叫貨編號)、CompanyName(供應商)、OrderTime(叫貨時間)、OrderStatus(交易狀態)、?total(大總價)、PaymentTerms(付款方式)
+        // ProductNameSpec(品名規格)、OrderQty(叫貨數量)、OrderQty(到貨數量)、UnitSellPrice(成本單價)、?detailTotal(明細總價)
+        // 時間軸：Status(狀態)、訂單時間：OrderTime(訂單送出時間)、AcceptOrderTime(訂單接受時間)、ExportTime(訂單出貨時間)、SellerEstimatedArriveTime(賣家預計到貨時間)、ArriveOrderTime(貨物送達時間)、CompleteOrderTime(訂單完成時間)、CancelOrderTime(訂單不完成時間)
+
+        // OrderStatus(交易狀態)：1是尚未送出叫貨單_還沒送出訂單、2是待確認_訂單送出、3是待出貨_訂單成立、4是出貨中、5是待收貨_待收貨入庫、6是訂單完成_入庫完成、7是訂單不成立_賣家或買家取消
+
+        var allBuyList =
+            [
+                {
+                    OrderId: "#22090793950",
+                    CompanyName: "恬心實業有限公司",
+                    total: 5960,
+                    PaymentTerms: "銀行轉帳<br>月結(Net30)",
+
+                    OrderStatus: 1,
+                    OrderTime: "無",
+                    AcceptOrderTime: null,
+                    ExportTime: null,
+                    ArriveOrderTime: null,
+                    CompleteOrderTime: null
+                },
+
+                {
+                    OrderId: "#22098857193",
+                    CompanyName: "壽豐商行有限公司",
+                    total: 6260,
+                    PaymentTerms: "銀行轉帳<br>月結(Net30)",
+
+                    OrderStatus: 2,
+                    OrderTime: "09/23 12:51",
+                    AcceptOrderTime: null,
+                    ExportTime: null,
+                    ArriveOrderTime: null,
+                    CompleteOrderTime: null
+                },
+
+                {
+                    OrderId: "#22090095710",
+                    CompanyName: "蛟龍企業有限公司",
+                    total: 19330,
+                    PaymentTerms: "銀行轉帳<br>月結(OA30)",
+
+                    OrderStatus: 3,
+                    OrderTime: "09/23 12:51",
+                    AcceptOrderTime: "09/28 17:11",
+                    ExportTime: null,
+                    ArriveOrderTime: null,
+                    CompleteOrderTime: null
+                },
+
+                {
+                    OrderId: "#22098577951",
+                    CompanyName: "德昌股份有限公司",
+                    total: 8170,
+                    PaymentTerms: "銀行轉帳<br>月結(OA30)",
+
+                    OrderStatus: 7,
+                    OrderTime: "09/23 12:51",
+                    AcceptOrderTime: "09/28 17:11",
+                    ExportTime: "09/29 10:72",
+                    ArriveOrderTime: "09/29 15:33",
+                    CompleteOrderTime: "09/30 19:49"
+                },
+
+                {
+                    OrderId: "#22093629919",
+                    CompanyName: "金德欣股份有限公司",
+                    total: 16770,
+                    PaymentTerms: "銀行轉帳<br>月結(TT30)",
+
+                    OrderStatus: 6,
+                    OrderTime: "09/23 12:51",
+                    AcceptOrderTime: "09/28 17:11",
+                    ExportTime: "09/29 10:72",
+                    ArriveOrderTime: "09/29 15:33",
+                    CompleteOrderTime: "09/30 19:49"
+                }
+
+            ];
+
+        var allBuyListDetail = [
+            {
+                ProductNameSpec: "生鮮熟食干貝/禮盒裝",
+                OrderQty: 10,
+                UnitSellPrice: 500,
+                detailTotal: 5000
+            },
+            {
+                ProductNameSpec: "牛奶貝/1斤",
+                OrderQty: 96,
+                UnitSellPrice: 10,
+                detailTotal: 960
+            },
+            {
+                ProductNameSpec: "牛奶貝/1斤",
+                OrderQty: 96,
+                UnitSellPrice: 10,
+                detailTotal: 960
+            },
+            {
+                ProductNameSpec: "牛奶貝/1斤",
+                OrderQty: 96,
+                UnitSellPrice: 10,
+                detailTotal: 960
+            },
+            {
+                ProductNameSpec: "牛奶貝/1斤",
+                OrderQty: 96,
+                UnitSellPrice: 10,
+                detailTotal: 960
+            }
+        ]
+
+
+        // 欄位中文名稱對應
+        let buyListName = [
+            {
+                OrderId: "叫貨編號",
+                CompanyName: "供應商",
+                OrderTime: "叫貨時間",
+                OrderStatus: "交易狀態",
+                total: "總價",
+                PaymentTerms: "付款方式",
+                ProductNameSpec: "品名規格",
+                OrderQty: "叫貨數量",
+                UnitSellPrice: "成本單價",
+                detailTotal: "總價"
+            }
+        ]
+
+        let buyListStatusName = [
+            {
+                OrderTime: "待供應商確認",
+                AcceptOrderTime: "待供應商出貨",
+                ExportTime: "供應商出貨中",
+                ArriveOrderTime: "待我方收貨",
+                CompleteOrderTime: "訂單完成",
+                CancelOrderTime: "不成立"
+            }
+        ]
+
+        // 撈資料(使用非同步資料的方式撈)。
+        downloadData();
+        async function downloadData() {
+
+            // 與Server對接的ajax。
+            // 邊撈同時進行後續動作。
+            // var result = await $.ajax({
+            //     type: "get",
+            //     url: "http://localhost:3000/home/news"
+            // });
+
+            // allBuyList = JSON.parse(result);
+
+            // 撈完後解析假資料並更新畫面內容。
+            reNewData();
+        }
+
+        function reNewData() {
+            let pageDataNum = 5;  //每頁最多5筆資料。
+
+            for (let i = 0; i <= (pageDataNum * 2 - 1); i++) {
+                // 清空Table，把除了<th>內部<tr>之外的所有<tr>清空。
+                $(".orderBuytable tr")[i + 1].innerHTML = "";
+            }
+
+
+            for (let i = 0; i < pageDataNum; i++) {
+
+                // 判斷交易狀態
+                let theStatus = null;
+                switch (allBuyList[i].OrderStatus) {
+                    case 1:
+                        theStatus = "我方尚未送出叫貨單";
+                        break;
+                    case 2:
+                        theStatus = "待供應商確認";
+                        break;
+                    case 3:
+                        theStatus = "待供應商出貨";
+                        break;
+                    case 4:
+                        theStatus = "供應商出貨中";
+                        break;
+                    case 5:
+                        theStatus = "待我方收貨";
+                        break;
+                    case 6:
+                        theStatus = "訂單完成";
+                        break;
+                    case 7:
+                        theStatus = "訂單不成立";
+                        break;
+                    default:
+                        console.log("交易狀態錯誤");
+                        break;
+                }
+
+
+                // 判斷幾個按鈕狀態
+                // 送出叫貨單=送出叫貨單按鈕+刪除叫貨單按鈕
+                let sentOrder =
+                    `<button class="orderBtn mdc-button mdc-button--raised mb-2">
+                    <span class="mdc-button__label fs-6 fw-normal">送出叫貨單</span>
+                </button><br>
+                <button class="orderBtnDel mdc-button mdc-button--outlined mb-2">
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label fs-6 fw-normal">刪除叫貨單</span>
+                </button><br>`;
+
+                let cancelOrder =
+                    `<button class="orderBtnDel mdc-button mdc-button--outlined mb-2">
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label fs-6 fw-normal">取消叫貨單</span>
+                </button><br>`;
+
+                let checkOrder =
+                    `<button class="detail mdc-button">
+                    <span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label fs-6 fw-normal">查看明細</span>
+                </button>`;
+
+                let intoStock =
+                    `<button class="orderBtn mdc-button mdc-button--raised mb-2">
+                    <span class="mdc-button__label fs-6 fw-normal">已確認入庫</span>
+                </button><br>`;
+
+                let theButton = null;
+                switch (allBuyList[i].OrderStatus) {
+                    case 1:
+                        theButton = sentOrder + checkOrder;
+                        break;
+                    case 2: case 3: case 4:
+                        theButton = cancelOrder + checkOrder;
+                        break;
+                    case 5:
+                        theButton = intoStock + cancelOrder + checkOrder;
+                        break;
+                    case 6: case 7:
+                        theButton = checkOrder;
+                        break;
+                    default:
+                        console.log("按鈕錯誤");
+                        break;
+                }
+
+
+                // 判斷明細的操作按鈕
+                let theButtonDetail = null;
+                switch (allBuyList[i].OrderStatus) {
+                    case 1:
+                        theButtonDetail =
+                            `<button class="detailBtn">編輯</button>
+                        <button class="deleteBtn">刪除</button>`;
+                        break;
+                    case 5:
+                        theButtonDetail =
+                            `<button class="detailBtn">全到</button>`;
+                        break;
+                    case 2: case 3: case 4: case 6: case 7:
+                        theButtonDetail = ``;
+                        break;
+                    default:
+                        console.log("明細操作按鈕錯誤");
+                        break;
+                }
+
+
+                // 判斷時間軸
+                let thetimeLine = null;
+                switch (allBuyList[i].OrderStatus) {
+                    case 1: case 7:
+                        thetimeLine = ``;
+                        break;
+                    case 2:
+                        thetimeLine = ` <td colspan="6">
+                                                <div id="timeline">
+                                                    <ol>
+                                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].OrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].OrderTime}</p>
+                                        </li>
+                                        <li class="point">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp"></p>
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ExportTime}</h6>
+                                            <!-- <p class="timestamp">09/23 17:33</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ArriveOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 09:42</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].CompleteOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 17:24</p> -->
+                                        </li>
+
+                                                    </ol>
+                                                </div>
+                                            </td>`;
+                        break;
+                    case 3:
+                        thetimeLine = `<td colspan="6">
+                                                <div id="timeline">
+                                                    <ol>
+                                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].OrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].OrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].AcceptOrderTime}</p>
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ExportTime}</h6>
+                                            <!-- <p class="timestamp">09/23 17:33</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ArriveOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 09:42</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].CompleteOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 17:24</p> -->
+                                        </li>
+
+                                                    </ol>
+                                                </div>
+                                            </td>`;
+                        break;
+                    case 4:
+                        thetimeLine = `<td colspan="6">
+                                                <div id="timeline">
+                                                    <ol>
+                                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].OrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].OrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].AcceptOrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ExportTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].ExportTime}</p>
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ArriveOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 09:42</p> -->
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].CompleteOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 17:24</p> -->
+                                        </li>
+
+                                                    </ol>
+                                                </div>
+                                            </td>`;
+                        break;
+                    case 5:
+                        thetimeLine = `<td colspan="6">
+                                                <div id="timeline">
+                                                    <ol>
+                                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].OrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].OrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].AcceptOrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ExportTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].ExportTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ArriveOrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].ArriveOrderTime}</p>
+                                        </li>
+                                        <li>
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].CompleteOrderTime}</h6>
+                                            <!-- <p class="timestamp">09/24 17:24</p> -->
+                                        </li>
+
+                                                    </ol>
+                                                </div>
+                                            </td>`;
+                        break;
+
+                    case 6:
+                        thetimeLine = `<td colspan="6">
+                                                <div id="timeline">
+                                                    <ol>
+                                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].OrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].OrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].AcceptOrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].AcceptOrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ExportTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].ExportTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].ArriveOrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].ArriveOrderTime}</p>
+                                        </li>
+                                        <li class="active">
+                                            <span class="point"></span>
+                                            <h6 class="diplome">${buyListStatusName[0].CompleteOrderTime}</h6>
+                                            <p class="timestamp">${allBuyList[i].CompleteOrderTime}</p>
+                                        </li>
+
+                                                    </ol>
+                                                </div>
+                                            </td>`;
+                        break;
+
+                    default:
+                        console.log("時間軸錯誤");
+                        break;
+                }
+
+                //------------------------------------------------------
+
+                // 創造<tr>的Html格式，並將資料帶入。
+                let toptrHtmlData =
+                    `<td data-label=${buyListName[0].OrderId}>${allBuyList[i].OrderId}</td>
+                    <td data-label=${buyListName[0].CompanyName}>${allBuyList[i].CompanyName}</td>
+                    <td data-label=${buyListName[0].OrderTime}>${allBuyList[i].OrderTime}</td>
+                    <td data-label=${buyListName[0].OrderStatus}>${theStatus}</td>
+                    <td data-label=${buyListName[0].total}>${allBuyList[i].total}</td>
+                    <td data-label=${buyListName[0].PaymentTerms}>${allBuyList[i].PaymentTerms}</td>
+                    <td data-label="操作">${theButton}</td>`;
+                let bottomtrHtmlData =
+                    `   <td colspan="7">
+                            <div class="childTableHidden">
+                                <table id="orderTr1">
+                                    <thead>
+                                        <tr class="detailTh">
+                                            <th style="width: 20%;">${buyListName[0].ProductNameSpec}</th>
+                                            <th style="width: 15%;">${buyListName[0].OrderQty}</th>
+                                            <th style="width: 15%;">${buyListName[0].UnitSellPrice}</th>
+                                            <th style="width: 15%;">${buyListName[0].detailTotal}</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td data-label=${buyListName[0].ProductNameSpec}>${allBuyListDetail[i].ProductNameSpec}</td>
+                                            <td data-label=${buyListName[0].OrderQty}>${allBuyListDetail[i].OrderQty}</td>
+                                            <td data-label=${buyListName[0].UnitSellPrice}>${allBuyListDetail[i].UnitSellPrice}</td>
+                                            <td data-label="總價">${allBuyListDetail[i].detailTotal}</td>
+                                            <td data-label="操作">
+                                                ${theButtonDetail}
+                                            </td>
+                                        </tr>
+
+                                        <!-- 加入時間軸 -->
+                                        <tr>
+                                            ${thetimeLine}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>`;
+
+
+                // 把製作完的tr放回去table中。
+
+
+                $(".hiddenRowControll")[i].innerHTML = toptrHtmlData;
+                // $(".orderBuytable tr")[(i+1)*2].innerHTML = bottomtrHtmlData;
+                $(".childRow")[i].innerHTML = bottomtrHtmlData;
+                // console.log($(".orderBuytable tr")[i].innerHTML);
+            }
+        }
+
+    </script>
+
+    <!-- 確認刪除 -->
+    <script>
+        // 刪除明細品項
+        $(".orderBuytable").on('click', '.deleteBtn', function () {
+            Swal.fire({
+                title: '請確認是否要刪除該筆品項？',
+                text: "請注意：此操作是無法回復的",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: 'var(--color-marigold)',
+                cancelButtonColor: 'var(--color-irongray)',
+                confirmButtonText: '刪除',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).closest('tr').remove();
+                    Swal.fire({
+                        title: '成功刪除',
+                        text: '您已成功刪除該筆品項',
+                        icon: 'success',
+                        confirmButtonColor: 'var(--color-marigold)'
+                    })
+                }
+            })
+
+        });
+
+        // 刪除叫貨單
+        $(".orderBuytable").on('click', '.orderBtnDel', function () {
+
+            if (this.innerHTML == "確認入庫") {
+                Swal.fire({
+                    title: '已成功入庫',
+                    text: '可至叫庫存概況查看庫存狀態',
+                    icon: 'success',
+                    confirmButtonColor: 'var(---color-marigold)'
+                })
+                $(this).closest("tr").find("td")[3].innerHTML = "已完成";
+                $(this).hide();
+            } else {
+                Swal.fire({
+                    title: '請確認是否要刪除該筆品項？',
+                    text: "請注意：此操作是無法回復的",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: 'var(--color-marigold)',
+                    cancelButtonColor: 'var(--color-irongray)',
+                    confirmButtonText: '刪除',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).closest('tr').remove();
+                        Swal.fire({
+                            title: '成功刪除',
+                            text: '您已成功刪除該筆品項',
+                            icon: 'success',
+                            confirmButtonColor: 'var(--color-marigold)'
+                        })
+                    }
+                })
+
+            }
+
+        });
+
+        // 送出叫貨單
+        $(".orderBtn").on('click', function () {
+            Swal.fire({
+                title: '叫貨單送出',
+                text: '請靜候供應商確認',
+                icon: 'success',
+                confirmButtonColor: 'var(--color-marigold)'
+            })
+            $(this).closest("tr").find("td")[3].innerHTML = "待確認";
+            $(this).hide();
+        });
+
+
+
+    </script>
+
+
+
+    <!-- 收合開關 -->
+    <script>
+
+        $(".detail").on("click", function () {
+
+            let divNum;
+
+            if ($(this).closest("tr").index() == 0) {
+                divNum = 0;
+            } else {
+                divNum = $(this).closest("tr").index() / 2;
+            }
+
+
+            let divHeight = $(".childTableHidden")[divNum].style.height;
+
+
+            if (divHeight == 0 || divHeight == "0px") {
+                // $(".childTableHidden")[divNum].style.height = "140px";
+                $(".childTableHidden")[divNum].style.height = "300px";
+            } else {
+                $(".childTableHidden")[divNum].style.height = "0px";
+            }
+
+        })
+
+    </script>
+
+</body>
+
+</html>
